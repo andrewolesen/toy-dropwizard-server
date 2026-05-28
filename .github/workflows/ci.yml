@@ -3,17 +3,22 @@ system-test:
   needs: build
   steps:
     - uses: actions/checkout@v2
+
     - name: Run docker Compose
-    working-directory:
-    run: docker-compose up -d --build
-           - name: set up python
-    uses: actions/setup-python@v1
-    with:
-    python-version: '3.7'
-      - run: pip install pytest requests
-      - name: Run system tests
-    working-directory:
-    run: pytest
-           - name: Bring server down
-    working-directory:
-    run: docker-compose down
+      working-directory: .
+      run: docker-compose up -d --build
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'
+
+    - run: pip install pytest requests
+
+    - name: Run system tests
+      working-directory: .
+      run: pytest
+
+    - name: Bring server down
+      working-directory: .
+      run: docker-compose down
